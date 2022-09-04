@@ -87,7 +87,6 @@ func (h *handlersCart) CreateCart(w http.ResponseWriter, r *http.Request) {
 		TransactionID: idTrans,
 		QTY:           request.QTY,
 		SubTotal:      request.SubTotal,
-		Status:        request.Status,
 	}
 
 	validatee := validator.New()
@@ -133,6 +132,14 @@ func (h *handlersCart) UpdateCart(w http.ResponseWriter, r *http.Request) {
 	// len > 0
 	if request.ProductID != 0 {
 		cart.ProductID = request.ProductID
+	}
+
+	if request.QTY != 0 {
+		cart.QTY = request.QTY
+	}
+
+	if request.SubTotal != 0 {
+		cart.SubTotal = request.SubTotal
 	}
 
 	data, err := h.CartRepository.UpdateCart(cart)
@@ -190,4 +197,12 @@ func (h *handlersCart) FindCartsByID(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 	response := dto.SuccessResult{Code: "Success", Data: cart}
 	json.NewEncoder(w).Encode(response)
+}
+func convertResponseCart(u models.Cart) models.Cart {
+	return models.Cart{
+		ID:       u.ID,
+		QTY:      u.QTY,
+		SubTotal: u.SubTotal,
+		Product:  u.Product,
+	}
 }

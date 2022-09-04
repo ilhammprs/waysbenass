@@ -6,6 +6,7 @@ import PaymentModal from "../components/modal/payment";
 import { UserContext } from "../context/userContext";
 import NavbarLogin from "../components/navbarUser";
 import { useNavigate } from "react-router-dom";
+import rp from "rupiah-format";
 import { useMutation, useQuery } from "react-query";
 import { API } from "../config/api";
 
@@ -29,12 +30,12 @@ export default function Cart() {
     return response.data.data;
   });
 
-  //subtotal
-  let resultTotal = cart?.reduce((a, b) => {
+  //total
+  let Total = cart?.reduce((a, b) => {
     return a + b.subtotal;
   }, 0);
 
-  //remove
+  //hapus
   let handleDelete = async (id) => {
     await API.delete(`/cart/` + id);
     refetch();
@@ -42,8 +43,8 @@ export default function Cart() {
 
   //pay
   const form = {
-    status: "pending",
-    total: resultTotal,
+    status: "success",
+    total: Total,
   };
   const handleSubmit = useMutation(async (e) => {
     const config = {
@@ -136,7 +137,7 @@ export default function Cart() {
                       <ul className="description text-end align-items-center pt-4 pr-3 ps-0 mb-0">
                         <li>
                           <p className="text-danger fw-semibold">
-                            Rp {item?.subtotal}
+                             {rp.convert(item?.subtotal)}
                           </p>
                         </li>
                         <li>
@@ -170,7 +171,7 @@ export default function Cart() {
             >
               <div className="d-flex justify-content-between">
                 <p className="text-danger">Subtotal</p>
-                <p className="text-danger">Rp. {resultTotal}</p>
+                <p>{rp.convert(Total)}</p>
               </div>
               <div className="d-flex justify-content-between">
                 <p className="text-danger">Qty</p>
@@ -182,7 +183,7 @@ export default function Cart() {
               style={{ width: "80%" }}
             >
               <p className="text-danger fw-bold">Total</p>
-              <p className="text-danger fw-bold"> Rp.{resultTotal}</p>
+              <p>{rp.convert(Total)}</p>
             </div>
             <div className="mt-5" style={{ width: "80%" }}>
               <Button

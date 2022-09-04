@@ -159,8 +159,6 @@ func (h *handlersProduct) UpdateProduct(w http.ResponseWriter, r *http.Request) 
 
 func (h *handlersProduct) DeleteProduct(w http.ResponseWriter, r *http.Request) {
 	w.Header().Set("Content-Type", "application/json")
-	userInfo := r.Context().Value("userInfo").(jwt.MapClaims)
-	userId := int(userInfo["time"].(float64))
 
 	id, _ := strconv.Atoi(mux.Vars(r)["id"])
 	product, err := h.ProductRepository.GetProduct(id)
@@ -170,7 +168,7 @@ func (h *handlersProduct) DeleteProduct(w http.ResponseWriter, r *http.Request) 
 		json.NewEncoder(w).Encode(response)
 	}
 
-	data, err := h.ProductRepository.DeleteProduct(product, userId)
+	data, err := h.ProductRepository.DeleteProduct(product)
 	if err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		response := dto.ErrorResult{Code: http.StatusInternalServerError, Message: err.Error()}

@@ -12,11 +12,10 @@ type Cart struct {
 }
 
 type CartResponse struct {
-	ID            int                `json:"id"`
-	Total         int                `json:"total"`
-	TransactionID int                `json:"transaction_id"`
-	ProductID     int                `json:"product_id"`
-	Product       ProductTransaction `json:"product"`
+	ID        int                `json:"id"`
+	Total     int                `json:"total"`
+	ProductID int                `json:"product_id"`
+	Product   ProductTransaction `json:"product"`
 }
 
 func (CartResponse) TableName() string {

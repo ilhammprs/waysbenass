@@ -6,7 +6,7 @@ import { Container, Row, Col, Form, Button } from "react-bootstrap";
 import { API } from "../config/api";
 import NavbarAdmin from "../components/navbarAdmin";
 
-export default function AddProduct() {
+function UpdateProduct() {
   const { id } = useParams();
 
   const navigate = useNavigate();
@@ -27,7 +27,7 @@ export default function AddProduct() {
         let response = await API.get("/product/" + id);
         setData(response.data.data);
         setAddProduct({
-          name: response.data.data.title,
+          title: response.data.data.title,
           price: response.data.data.price,
           desc: response.data.data.desc,
           stock: response.data.data.stock,
@@ -186,3 +186,5 @@ export default function AddProduct() {
     </>
   );
 }
+
+export default UpdateProduct;

@@ -25,7 +25,9 @@ function Detail() {
         },
       };
       const body = JSON.stringify({
-        product_id: parseInt(id),
+        subtotal: product.price,
+        product_id: product.id,
+        qty: 1,
       });
       const response = await API.post("/cart", body, config);
 

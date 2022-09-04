@@ -12,6 +12,8 @@ type CreateCart struct {
 type UpdateCart struct {
 	UserID    int `json:"user_id"`
 	ProductID int `json:"product_id"`
+	SubTotal  int    `json:"subtotal"`
+	QTY       int `json:"qty"`
 }
 
 type CartResponse struct {
